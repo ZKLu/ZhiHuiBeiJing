@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -22,6 +23,8 @@ public class GuideActivity extends AppCompatActivity {
     private int[] mImageIds = new int[]{R.drawable.guide_1,R.drawable.guide_2,R.drawable.guide_3};
     private ArrayList<ImageView> mImageView;
     private LinearLayout ll_container;
+    private int mPointDis;
+    private ImageView iv_red_point;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class GuideActivity extends AppCompatActivity {
     private void initView() {
         mViewPager = (ViewPager) findViewById(R.id.vp_guide);
         ll_container = (LinearLayout) findViewById(R.id.ll_container);
+        iv_red_point = (ImageView) findViewById(R.id.iv_red_point);
     }
 
     /**初始化三张ImageView
@@ -66,8 +70,42 @@ public class GuideActivity extends AppCompatActivity {
         }
         mViewPager.setAdapter(new GuideAdapter());
 
+        //监听ViewPager的滑动事件，更新红点的位置
+        mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            /**
+            *@param positionOffset 位置偏移百分比
+            *@return void
+            */
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+            }
 
+            @Override
+            public void onPageSelected(int position) {
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+        //计算红点移动距离
+        //mPointDis = ll_container.getChildAt(1).getLeft() - ll_container.getChildAt(0).getLeft();
+        //这样是获取获取不到getLeft()的值，因为onMeasure onLayout onDraw 三个方法是在onCreate执行完才执行
+        //在onStart onResume里也或许不行，因为这三个方法都是耗时操作，可能执行完onStart onResume，那三个方法也还没执行完
+        //只有监听layout的执行，一旦执行，立即获取getLeft()的值
+
+        iv_red_point.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            /**一旦视图树的onLayout()方法完成，就会回调这方法
+            *@param
+            *@return void
+            */
+            @Override
+            public void onGlobalLayout() {
+                //布局位置已经确定，可以拿到位置信息
+                mPointDis = ll_container.getChildAt(1).getLeft() - ll_container.getChildAt(0).getLeft();
+            }
+        });
     }
     class GuideAdapter extends PagerAdapter{
 
