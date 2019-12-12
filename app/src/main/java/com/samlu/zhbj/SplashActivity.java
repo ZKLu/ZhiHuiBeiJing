@@ -10,6 +10,9 @@ import android.view.animation.AnimationSet;
 import android.view.animation.RotateAnimation;
 import android.view.animation.ScaleAnimation;
 import android.widget.RelativeLayout;
+
+import com.samlu.zhbj.utils.SPUtil;
+
 /*
 * 闪屏页
 * */
@@ -61,7 +64,14 @@ public class SplashActivity extends Activity {
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                startActivity(new Intent(getApplicationContext(),GuideActivity.class));
+                //判断是进入新手引导页面还是主页面
+                boolean isGuideShow = SPUtil.getBoolean(getApplicationContext(),"is_guide_show",false);
+                if (!isGuideShow){
+                    startActivity(new Intent(getApplicationContext(),GuideActivity.class));
+                }else {
+                    startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                }
+
                 finish();
             }
 

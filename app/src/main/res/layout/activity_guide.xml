@@ -20,6 +20,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:textColor="@color/text_guide_selector"
+        android:visibility="gone"
         />
     <RelativeLayout
         android:layout_width="wrap_content"

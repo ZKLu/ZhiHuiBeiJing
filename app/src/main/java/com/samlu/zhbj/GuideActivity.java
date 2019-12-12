@@ -1,5 +1,7 @@
 package com.samlu.zhbj;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -8,15 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+
+import com.samlu.zhbj.utils.SPUtil;
 
 import java.util.ArrayList;
 
 /*
 * 新手引导页
 * */
-public class GuideActivity extends AppCompatActivity {
+public class GuideActivity extends Activity {
 
     private ViewPager mViewPager;
     //图片ID集合
@@ -25,6 +31,7 @@ public class GuideActivity extends AppCompatActivity {
     private LinearLayout ll_container;
     private int mPointDis;
     private ImageView iv_red_point;
+    private Button bt_start;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,12 +43,19 @@ public class GuideActivity extends AppCompatActivity {
         initData();
     }
 
-
-
     private void initView() {
         mViewPager = (ViewPager) findViewById(R.id.vp_guide);
         ll_container = (LinearLayout) findViewById(R.id.ll_container);
         iv_red_point = (ImageView) findViewById(R.id.iv_red_point);
+        bt_start = findViewById(R.id.bt_start);
+        bt_start.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SPUtil.putBoolean(getApplicationContext(),"is_guide_show",true);
+                startActivity(new Intent(getApplicationContext(),MainActivity.class));
+                finish();
+            }
+        });
     }
 
     /**初始化三张ImageView
@@ -78,11 +92,21 @@ public class GuideActivity extends AppCompatActivity {
             */
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+                //通过修改红点的左边距，达到移动的效果
+                int distance = (int) (mPointDis * positionOffset +position * mPointDis);
+                //获取红点的布局参数
+                RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) iv_red_point.getLayoutParams();
+                layoutParams.leftMargin = distance;
+                iv_red_point.setLayoutParams(layoutParams);
             }
 
             @Override
             public void onPageSelected(int position) {
+                if (position == mImageIds.length - 1){
+                    bt_start.setVisibility(View.VISIBLE);
+                }else {
+                    bt_start.setVisibility(View.GONE);
+                }
             }
 
             @Override
@@ -104,6 +128,8 @@ public class GuideActivity extends AppCompatActivity {
             public void onGlobalLayout() {
                 //布局位置已经确定，可以拿到位置信息
                 mPointDis = ll_container.getChildAt(1).getLeft() - ll_container.getChildAt(0).getLeft();
+                //移除观察者
+                iv_red_point.getViewTreeObserver().removeOnGlobalLayoutListener(this);
             }
         });
     }
