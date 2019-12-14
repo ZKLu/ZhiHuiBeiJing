@@ -51,7 +51,7 @@ public abstract class BaseFragment extends Fragment {
         initData();
     }
 
-    private void initData() {
+    public void initData() {
     }
 
     /**继承的子类必须实现这个方法，完成布局
