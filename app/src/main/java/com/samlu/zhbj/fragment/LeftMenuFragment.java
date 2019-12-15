@@ -42,6 +42,8 @@ public class LeftMenuFragment extends BaseFragment {
     public void setMenuData(ArrayList<NewsMenu.NewsMenuData> data) {
         this.data = data;
 
+        mCurrentPosition = 0;
+
         final leftMenuAdapter mAdapter = new leftMenuAdapter();
 
         lv_menu.setAdapter(mAdapter);

@@ -11,30 +11,34 @@ import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.lidroid.xutils.http.client.HttpRequest;
+import com.samlu.zhbj.Base.BaseMenuDetailPager;
 import com.samlu.zhbj.Base.BasePager;
+import com.samlu.zhbj.Base.implement.menudetail.InteractMenuDetailPager;
+import com.samlu.zhbj.Base.implement.menudetail.NewsMenuDetailPager;
+import com.samlu.zhbj.Base.implement.menudetail.PhotosMenuDetailPager;
+import com.samlu.zhbj.Base.implement.menudetail.TopicMenuDetailPager;
 import com.samlu.zhbj.MainActivity;
 import com.samlu.zhbj.domain.NewsMenu;
 import com.samlu.zhbj.fragment.LeftMenuFragment;
 import com.samlu.zhbj.global.GlobalConstants;
+
+import java.util.ArrayList;
 
 /**新闻中心
  * Created by sam lu on 2019/12/14.
  */
 
 public class NewsPager extends BasePager {
+
+    private ArrayList<BaseMenuDetailPager> mPagers;
+    private NewsMenu mNewsMenu;
+
     public NewsPager(Activity activity) {
         super(activity);
     }
 
     @Override
     public void initData() {
-        //给空的帧布局动态怎加布局对象
-        TextView view = new TextView(mActivity);
-        view.setTextColor(Color.RED);
-        view.setTextSize(22);
-        view.setGravity(Gravity.CENTER);
-        view.setText("新闻中心");
-        fl_container.addView(view);
 
         //修改标题
         tv_title.setText("新闻");
@@ -68,12 +72,22 @@ public class NewsPager extends BasePager {
     */
     private void processData(String json) {
         Gson gson = new Gson();
-        NewsMenu newsMenu = gson.fromJson(json, NewsMenu.class);
+        mNewsMenu = gson.fromJson(json, NewsMenu.class);
 
         //找侧边栏对象
         MainActivity mainUI = (MainActivity) mActivity;
         LeftMenuFragment fragment = mainUI.getLeftMenuFragment();
-        fragment.setMenuData(newsMenu.data);
+        fragment.setMenuData(mNewsMenu.data);
+
+        //网络请求成功之后，初始化四个菜单详情页
+        mPagers = new ArrayList<>();
+        mPagers.add(new NewsMenuDetailPager(mActivity));
+        mPagers.add(new TopicMenuDetailPager(mActivity));
+        mPagers.add(new PhotosMenuDetailPager(mActivity));
+        mPagers.add(new InteractMenuDetailPager(mActivity));
+
+        //设置新闻菜单详情页为默认页
+        setMenuDetailPager(0);
     }
 
     /**修改菜单详情页
@@ -81,6 +95,16 @@ public class NewsPager extends BasePager {
     *@return
     */
     public void setMenuDetailPager(int position) {
+        //修改当前帧布局显示的内容
+         BaseMenuDetailPager pager= mPagers.get(position);
+        //清除之前帧布局显示的内容，否则会不断的addView叠加在已有的上面
+        fl_container.removeAllViews();
 
+        fl_container.addView(pager.mRootView);
+        //初始化当前页的数据
+        pager.initData();
+
+        //修改标题
+        tv_title.setText(mNewsMenu.data.get(position).title);
     }
 }
