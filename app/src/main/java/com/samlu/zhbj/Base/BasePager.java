@@ -1,7 +1,6 @@
 package com.samlu.zhbj.Base;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -17,7 +16,7 @@ public class BasePager {
 
     public Activity mActivity;
     public TextView tv_title;
-    public ImageButton iv_menu;
+    public ImageButton ib_menu;
     public FrameLayout fl_container;//空的帧布局，由子类动态填充
     public final View mRootView;//当前页面的根布局
 
@@ -28,7 +27,7 @@ public class BasePager {
     public View initView(){
         View view = View.inflate(mActivity, R.layout.base_pager, null);
         tv_title = view.findViewById(R.id.tv_title);
-        iv_menu = view.findViewById(R.id.ib_menu);
+        ib_menu = view.findViewById(R.id.ib_menu);
         fl_container = view.findViewById(R.id.fl_container);
         return view;
     }

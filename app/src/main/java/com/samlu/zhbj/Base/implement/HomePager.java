@@ -1,18 +1,19 @@
-package com.samlu.zhbj.implement;
+package com.samlu.zhbj.Base.implement;
 
 import android.app.Activity;
 import android.graphics.Color;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.TextView;
 
 import com.samlu.zhbj.Base.BasePager;
 
-/**智慧服务
+/**首页
  * Created by sam lu on 2019/12/14.
  */
 
-public class SmartPager extends BasePager {
-    public SmartPager(Activity activity) {
+public class HomePager extends BasePager {
+    public HomePager(Activity activity) {
         super(activity);
     }
 
@@ -23,10 +24,11 @@ public class SmartPager extends BasePager {
         view.setTextColor(Color.RED);
         view.setTextSize(22);
         view.setGravity(Gravity.CENTER);
-        view.setText("智慧服务");
+        view.setText("首页");
         fl_container.addView(view);
 
         //修改标题
-        tv_title.setText("生活");
+        tv_title.setText("智慧北京");
+        ib_menu.setVisibility(View.GONE);
     }
 }

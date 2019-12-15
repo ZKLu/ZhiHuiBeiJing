@@ -14,7 +14,7 @@ import android.view.ViewGroup;
  */
 
 public abstract class BaseFragment extends Fragment {
-    public Activity mActivity;
+    public Activity mActivity; //MainActivity
     private View view;
 
     /**fragment的创建

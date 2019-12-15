@@ -28,4 +28,5 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile project(':library')
     compile project(':xUtilsLibrary')
+    compile files('libs/gson-2.3.1.jar')
 }

@@ -6,15 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RadioGroup;
 
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.lidroid.xutils.ViewUtils;
 import com.lidroid.xutils.view.annotation.ViewInject;
 import com.samlu.zhbj.Base.BasePager;
+import com.samlu.zhbj.MainActivity;
 import com.samlu.zhbj.R;
-import com.samlu.zhbj.implement.GovPager;
-import com.samlu.zhbj.implement.HomePager;
-import com.samlu.zhbj.implement.NewsPager;
-import com.samlu.zhbj.implement.SettingPager;
-import com.samlu.zhbj.implement.SmartPager;
+import com.samlu.zhbj.Base.implement.GovPager;
+import com.samlu.zhbj.Base.implement.HomePager;
+import com.samlu.zhbj.Base.implement.NewsPager;
+import com.samlu.zhbj.Base.implement.SettingPager;
+import com.samlu.zhbj.Base.implement.SmartPager;
 import com.samlu.zhbj.view.NoScrollViewPager;
 
 import java.util.ArrayList;
@@ -86,6 +88,11 @@ public class ContentFragment extends BaseFragment {
             @Override
             public void onPageSelected(int position) {
                 mList.get(position).initData();
+                if (position ==0 ||position == mList.size()-1){
+                    setSlidingMenuEnable(false);
+                }else {
+                    setSlidingMenuEnable(true);
+                }
             }
 
             @Override
@@ -95,6 +102,22 @@ public class ContentFragment extends BaseFragment {
         });
         //手动初始化页面第一个数据
         mList.get(0).initData();
+        //手动禁用第一个页面的侧边栏
+        setSlidingMenuEnable(false);
+    }
+    /**开启或禁用侧边栏
+    *@param
+    *@return
+    */
+    private void setSlidingMenuEnable(boolean enable){
+        //获取SlidingMenu对象
+        MainActivity mainUI = (MainActivity) mActivity;
+        SlidingMenu slidingMenu = mainUI.getSlidingMenu();
+        if (enable){
+            slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        }else {
+            slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
+        }
     }
 
     class ContentAdapter extends PagerAdapter{
