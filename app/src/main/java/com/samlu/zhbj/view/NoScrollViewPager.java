@@ -23,4 +23,14 @@ public class NoScrollViewPager extends ViewPager {
         //返回true的目的是让ViewPager不响应滑动事件
         return true;
     }
+
+    /**对事件进行拦截
+    *@param
+    *@return 
+    */
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        //返回true表示拦截，返回false表示不拦截，传给子控件
+        return false;
+    }
 }
