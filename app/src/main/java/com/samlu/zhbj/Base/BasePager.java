@@ -6,6 +6,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.samlu.zhbj.MainActivity;
 import com.samlu.zhbj.R;
 
 /**5个标签页的基类
@@ -29,6 +31,16 @@ public class BasePager {
         tv_title = view.findViewById(R.id.tv_title);
         ib_menu = view.findViewById(R.id.ib_menu);
         fl_container = view.findViewById(R.id.fl_container);
+
+        ib_menu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity mainUI = (MainActivity) mActivity;
+                SlidingMenu slidingMenu = mainUI.getSlidingMenu();
+                slidingMenu.toggle();
+            }
+        });
+
         return view;
     }
     public void initData(){

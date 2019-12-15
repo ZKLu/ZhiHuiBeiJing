@@ -76,5 +76,11 @@ public class NewsPager extends BasePager {
         fragment.setMenuData(newsMenu.data);
     }
 
+    /**修改菜单详情页
+    *@param
+    *@return
+    */
+    public void setMenuDetailPager(int position) {
 
+    }
 }

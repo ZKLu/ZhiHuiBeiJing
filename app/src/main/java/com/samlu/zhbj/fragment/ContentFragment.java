@@ -120,6 +120,15 @@ public class ContentFragment extends BaseFragment {
         }
     }
 
+    /**获取新闻中心对象
+    *@param
+    *@return
+    */
+    public NewsPager getNewsPager(){
+        NewsPager pager = (NewsPager) mList.get(1);
+        return pager;
+    }
+
     class ContentAdapter extends PagerAdapter{
 
         @Override
