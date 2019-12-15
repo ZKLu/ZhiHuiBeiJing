@@ -10,6 +10,7 @@ import com.samlu.zhbj.Base.BaseMenuDetailPager;
 import com.samlu.zhbj.Base.implement.TabDetailPager;
 import com.samlu.zhbj.R;
 import com.samlu.zhbj.domain.NewsMenu;
+import com.viewpagerindicator.TabPageIndicator;
 
 import java.util.ArrayList;
 
@@ -24,6 +25,7 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager {
     private ArrayList<NewsMenu.NewsTabData> children;
 
     private ArrayList<TabDetailPager> mPagers;
+    private TabPageIndicator indicator;
 
 
     public NewsMenuDetailPager(Activity activity, ArrayList<NewsMenu.NewsTabData> children) {
@@ -35,7 +37,7 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager {
     public View initView() {
         View view = View.inflate(mActivity, R.layout.pager_news_menu_detail,null);
         vp_news_menu_detail = view.findViewById(R.id.vp_news_menu_detail);
-
+        indicator = view.findViewById(R.id.tpi_indicator);
         return view;
     }
 
@@ -47,7 +49,8 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager {
             mPagers.add(pager);
         }
         vp_news_menu_detail.setAdapter(new NewsMenuDetailAdapter());
-
+        //将ViewPager与Indicator关联在一起。必须写在ViewPager.setAdapter()后
+        indicator.setViewPager(vp_news_menu_detail);
     }
 
     class NewsMenuDetailAdapter extends PagerAdapter{
@@ -73,6 +76,14 @@ public class NewsMenuDetailPager extends BaseMenuDetailPager {
             pager.initData();
             container.addView(pager.mRootView);
             return pager.mRootView;
+        }
+        /**返回Indicator的标题
+        *@param
+        *@return
+        */
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return children.get(position).title;
         }
     }
 }

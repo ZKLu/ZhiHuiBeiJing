@@ -1,7 +1,10 @@
 package com.samlu.zhbj.Base.implement;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.TextView;
 
 import com.samlu.zhbj.Base.BaseMenuDetailPager;
 import com.samlu.zhbj.domain.NewsMenu;
@@ -13,6 +16,7 @@ import com.samlu.zhbj.domain.NewsMenu;
 public class TabDetailPager extends BaseMenuDetailPager {
 
     private NewsMenu.NewsTabData newsTabData;
+    private TextView textView;
 
     public TabDetailPager(Activity activity, NewsMenu.NewsTabData newsTabData) {
         super(activity);
@@ -21,11 +25,15 @@ public class TabDetailPager extends BaseMenuDetailPager {
 
     @Override
     public View initView() {
-        return null;
+        textView = new TextView(mActivity);
+        textView.setTextColor(Color.RED);
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextSize(25);
+        return textView;
     }
 
     @Override
     public void initData() {
-        //newsTabData.title;
+        textView.setText(newsTabData.title);
     }
 }
