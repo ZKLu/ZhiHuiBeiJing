@@ -1,6 +1,7 @@
 package com.samlu.zhbj;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,9 @@ import com.samlu.zhbj.fragment.LeftMenuFragment;
 * 主页面
 * */
 public class MainActivity extends SlidingFragmentActivity {
+
+    private static final String TAG_CONTENT = "TAG_CONTENT";
+    private static final String TAG_LEFT_MENU = "TAG_LEFT_MENU";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,8 +41,15 @@ public class MainActivity extends SlidingFragmentActivity {
         //获取fragment管理器
         FragmentManager fm = getSupportFragmentManager();
         FragmentTransaction transaction = fm.beginTransaction();
-        transaction.replace(R.id.fl_content,new ContentFragment());//使用fragment替换现有布局，参数1：当前布局id，参数2：要替换的fragment对象
-        transaction.replace(R.id.fl_left_menu,new LeftMenuFragment());
+        transaction.replace(R.id.fl_content,new ContentFragment(),TAG_CONTENT);//使用fragment替换现有布局，参数1：当前布局id，参数2：要替换的fragment对象
+        transaction.replace(R.id.fl_left_menu,new LeftMenuFragment(),TAG_LEFT_MENU);
         transaction.commit();
+    }
+
+    //获取侧边栏对象
+    public LeftMenuFragment getLeftMenuFragment(){
+        FragmentManager fm = getSupportFragmentManager();
+        LeftMenuFragment fragment = (LeftMenuFragment) fm.findFragmentByTag(TAG_LEFT_MENU);
+        return fragment;
     }
 }
