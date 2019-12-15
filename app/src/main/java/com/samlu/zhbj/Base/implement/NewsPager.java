@@ -2,6 +2,7 @@ package com.samlu.zhbj.Base.implement;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import com.samlu.zhbj.MainActivity;
 import com.samlu.zhbj.domain.NewsMenu;
 import com.samlu.zhbj.fragment.LeftMenuFragment;
 import com.samlu.zhbj.global.GlobalConstants;
+import com.samlu.zhbj.utils.CacheUtil;
 
 import java.util.ArrayList;
 
@@ -42,8 +44,16 @@ public class NewsPager extends BasePager {
 
         //修改标题
         tv_title.setText("新闻");
-        
+
+        String cache = CacheUtil.getCache(mActivity, GlobalConstants.CATEGORY_URL);
+        if (!TextUtils.isEmpty(cache)){
+            //有缓存
+            processData(cache);
+        }/*else {
+            getDataFromServer();
+        }*/
         getDataFromServer();
+        //上面的做法是为了用户体验。不用等待也可以看见内容，也可以获得最新内容
     }
 
     /**从服务器获取数据
@@ -57,6 +67,9 @@ public class NewsPager extends BasePager {
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
                 processData(responseInfo.result);
+
+                //写缓存
+                CacheUtil.setCache(mActivity,GlobalConstants.CATEGORY_URL,responseInfo.result);
             }
 
             @Override
