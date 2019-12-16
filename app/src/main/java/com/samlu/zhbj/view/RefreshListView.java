@@ -2,6 +2,7 @@ package com.samlu.zhbj.view;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -34,5 +35,10 @@ public class RefreshListView extends ListView {
         addHeaderView(mHeaderView);
 
         //隐藏头布局
+        mHeaderView.measure(0,0);
+        int mHeaderViewHeight = mHeaderView.getMeasuredHeight();
+        Log.e("RefreshListView","mHeaderViewHeight:"+mHeaderViewHeight);
+        mHeaderView.setPadding(0,-mHeaderViewHeight,0,0);
+
     }
 }
