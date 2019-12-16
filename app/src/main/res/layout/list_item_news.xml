@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp">
+    <!-- android:background="#a000"
+        android:padding="0.5dp"组合一起使用，可以用边框效果-->
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:id="@+id/iv_news"
+        android:src="@drawable/news_pic_default"
+        android:scaleType="fitXY"
+        android:background="#a000"
+        android:padding="0.5dp"
+        android:layout_marginRight="5dp"/>
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@id/iv_news"
+        android:text="标题"
+        android:textColor="#000"
+        android:textSize="16sp"
+        android:maxLines="2"/>
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/iv_news"
+        android:layout_alignLeft="@id/tv_title"
+        android:text="2016-08-09"
+        android:textColor="#a000"
+        android:textSize="16sp"
+        android:maxLines="2"/>
+
+</RelativeLayout>

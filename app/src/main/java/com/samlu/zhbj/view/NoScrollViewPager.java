@@ -24,7 +24,7 @@ public class NoScrollViewPager extends ViewPager {
         return true;
     }
 
-    /**对事件进行拦截
+    /**对事件进行拦截。onInterceptTouchEvent()只能用于ViewGroup，所以ViewPager也是继承ViewGroup
     *@param
     *@return 
     */
