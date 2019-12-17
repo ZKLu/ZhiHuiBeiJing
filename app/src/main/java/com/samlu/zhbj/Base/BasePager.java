@@ -21,6 +21,7 @@ public class BasePager {
     public ImageButton ib_menu;
     public FrameLayout fl_container;//空的帧布局，由子类动态填充
     public final View mRootView;//当前页面的根布局
+    public ImageButton ib_display;
 
     public BasePager(Activity activity){
         mActivity = activity;
@@ -31,6 +32,7 @@ public class BasePager {
         tv_title = view.findViewById(R.id.tv_title);
         ib_menu = view.findViewById(R.id.ib_menu);
         fl_container = view.findViewById(R.id.fl_container);
+        ib_display = view.findViewById(R.id.ib_display);
 
         ib_menu.setOnClickListener(new View.OnClickListener() {
             @Override

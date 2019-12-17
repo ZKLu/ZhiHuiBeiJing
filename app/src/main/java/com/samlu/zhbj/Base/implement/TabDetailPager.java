@@ -3,10 +3,13 @@ package com.samlu.zhbj.Base.implement;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -51,6 +54,7 @@ public class TabDetailPager extends BaseMenuDetailPager {
     private RefreshListView  lv_list;
     private String mMoreUrl;
     private NewsAdapter mNewsAdapter;
+    private Handler mHandler;
 
     public TabDetailPager(Activity activity, NewsMenu.NewsTabData newsTabData) {
         super(activity);
@@ -111,6 +115,7 @@ public class TabDetailPager extends BaseMenuDetailPager {
 
                 //跳到新闻详情页
                 Intent intent = new Intent(mActivity, NewsDetailActivity.class);
+                intent.putExtra("url",news.url);
                 mActivity.startActivity(intent);
             }
         });
@@ -213,6 +218,43 @@ public class TabDetailPager extends BaseMenuDetailPager {
                 });
                 //初始化第一张图片的新闻标题
                 tv_title.setText(mTopNewsList.get(0).title);
+
+                //启动自动轮播效果
+                if (mHandler == null){
+                    mHandler = new Handler(){
+                        @Override
+                        public void handleMessage(Message msg) {
+                            int currentItem = vp_tab_detail.getCurrentItem();
+                            if (currentItem < mTopNewsList.size()-1){
+                                currentItem++;
+                            }else {
+                                currentItem =0;
+                            }
+                            vp_tab_detail.setCurrentItem(currentItem);
+                            sendEmptyMessageDelayed(0,2000);
+                        }
+                    };
+                    mHandler.sendEmptyMessageDelayed(0,2000);
+                }
+                vp_tab_detail.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        switch (event.getAction()){
+                            case MotionEvent.ACTION_DOWN:
+                                //移除消息，停止轮播
+                                mHandler.removeCallbacksAndMessages(null);
+                                break;
+                            case MotionEvent.ACTION_UP:
+                                mHandler.sendEmptyMessageDelayed(0,2000);
+                                break;
+                            case MotionEvent.ACTION_CANCEL:
+                                //事件取消。按住图片轮播然后上下划动，就会触发事件取消，抬起的动作被ListView消费
+                                mHandler.sendEmptyMessageDelayed(0,2000);
+                                break;
+                        }
+                        return false;
+                    }
+                });
             }
             mNewsList = newsTab.data.news;
             if (mNewsList != null){

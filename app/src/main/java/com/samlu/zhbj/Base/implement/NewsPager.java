@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.Color;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -96,7 +97,7 @@ public class NewsPager extends BasePager {
         mPagers = new ArrayList<>();
         mPagers.add(new NewsMenuDetailPager(mActivity,mNewsMenu.data.get(0).children));
         mPagers.add(new TopicMenuDetailPager(mActivity));
-        mPagers.add(new PhotosMenuDetailPager(mActivity));
+        mPagers.add(new PhotosMenuDetailPager(mActivity,ib_display));
         mPagers.add(new InteractMenuDetailPager(mActivity));
 
         //设置新闻菜单详情页为默认页
@@ -112,6 +113,13 @@ public class NewsPager extends BasePager {
          BaseMenuDetailPager pager= mPagers.get(position);
         //清除之前帧布局显示的内容，否则会不断的addView叠加在已有的上面
         fl_container.removeAllViews();
+
+        //判断切换的页面是否是组图，如果是，显示切换按钮，否则隐藏
+        if (pager instanceof PhotosMenuDetailPager){
+            ib_display.setVisibility(View.VISIBLE);
+        }else {
+            ib_display.setVisibility(View.GONE);
+        }
 
         fl_container.addView(pager.mRootView);
         //初始化当前页的数据
