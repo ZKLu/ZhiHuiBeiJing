@@ -61,6 +61,20 @@ public class TabDetailPager extends BaseMenuDetailPager {
         tv_title = headerView.findViewById(R.id.tv_title);
         cpi_circle = headerView.findViewById(R.id.cpi_circle);
         lv_list.addHeaderView(headerView);
+
+        lv_list.setOnRefreshListener(new RefreshListView.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                //刷新数据
+                getDataFromServer();
+            }
+
+            @Override
+            public void onLoadingMore() {
+               //加载更多
+            }
+        });
+
         return view;
     }
 
@@ -82,11 +96,15 @@ public class TabDetailPager extends BaseMenuDetailPager {
                 String result = responseInfo.result;
                 processData(result);
                 CacheUtil.setCache(mActivity,GlobalConstants.SERVER_URL + newsTabData.url,result);
+
+                //下拉刷新成功，把下拉刷新隐藏
+                lv_list.onRefreshComplete();
             }
 
             @Override
             public void onFailure(HttpException error, String msg) {
-
+                //下拉刷新成功，把下拉刷新隐藏
+                lv_list.onRefreshComplete();
             }
         });
     }
