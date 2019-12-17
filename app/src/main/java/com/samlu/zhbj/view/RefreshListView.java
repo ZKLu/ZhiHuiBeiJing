@@ -43,6 +43,8 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
     private RotateAnimation animUp;
     private RotateAnimation animDown;
 
+    private boolean isLoadMore = false;
+
 
     public RefreshListView(Context context) {
         this(context, null);
@@ -66,7 +68,6 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
         //隐藏头布局
         mHeaderView.measure(0,0);
         mHeaderViewHeight = mHeaderView.getMeasuredHeight();
-        Log.e("RefreshListView","mHeaderViewHeight:"+ mHeaderViewHeight);
         mHeaderView.setPadding(0,-mHeaderViewHeight,0,0);
 
         tv_state = mHeaderView.findViewById(R.id.tv_state);
@@ -88,9 +89,7 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
         mFooterView.setPadding(0,-mFooterViewHeight,0,0);
 
         setOnScrollListener(this);
-        if (mListener != null){
-            mListener.onLoadingMore();
-        }
+
     }
 
     private int startY = -1;
@@ -201,15 +200,21 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
     }
 
     public void onRefreshComplete(){
-        mHeaderView.setPadding(0,-mHeaderViewHeight,0,0);
-        //所有状态初始化
-        tv_state.setText("下拉刷新");
-        pb_loading.setVisibility(View.INVISIBLE);
-        iv_arrow.setVisibility(View.VISIBLE);
-        mCurrentState = STATE_PULL_TO_REFRESH;
+        if (!isLoadMore){
+            mHeaderView.setPadding(0,-mHeaderViewHeight,0,0);
+            //所有状态初始化
+            tv_state.setText("下拉刷新");
+            pb_loading.setVisibility(View.INVISIBLE);
+            iv_arrow.setVisibility(View.VISIBLE);
+            mCurrentState = STATE_PULL_TO_REFRESH;
 
-        //更新刷新时间
-        setRefreshTime();
+            //更新刷新时间
+            setRefreshTime();
+        }else {
+            //隐藏加载更多
+            mFooterView.setPadding(0,-mFooterViewHeight,0,0);
+            isLoadMore = false;
+        }
     }
 
     private OnRefreshListener mListener;
@@ -222,14 +227,18 @@ public class RefreshListView extends ListView implements AbsListView.OnScrollLis
         if (scrollState == SCROLL_STATE_IDLE){
             //当前显示的最后一个item的位置
             int lastVisiblePosition = getLastVisiblePosition();
-            if (lastVisiblePosition == getCount()-1){
+            if (lastVisiblePosition == getCount()-1 && !isLoadMore ){
+
+                isLoadMore = true;
                 //显示加载中
                 mFooterView.setPadding(0,0,0,0);
                 //显示在最后一个item的位置
                 setSelection(getCount()-1);
 
                 //加载更多数据
-
+                if (mListener != null){
+                    mListener.onLoadingMore();
+                }
             }
         }
     }
