@@ -27,6 +27,7 @@ import com.samlu.zhbj.R;
 import com.samlu.zhbj.domain.PhotosBean;
 import com.samlu.zhbj.global.GlobalConstants;
 import com.samlu.zhbj.utils.CacheUtil;
+import com.samlu.zhbj.utils.bitmap.MyBitmapUtils;
 
 import java.util.ArrayList;
 
@@ -121,11 +122,12 @@ public class PhotosMenuDetailPager extends BaseMenuDetailPager implements View.O
 
     class PhotosAdapter extends BaseAdapter{
 
-        private final BitmapUtils mBitmapUtils;
+        private final MyBitmapUtils mBitmapUtils;
 
         public PhotosAdapter(){
-            mBitmapUtils = new BitmapUtils(mActivity);
-            mBitmapUtils.configDefaultLoadingImage(R.drawable.pic_item_list_default);
+            /*mBitmapUtils = new MyBitmapUtils(mActivity);
+            mBitmapUtils.configDefaultLoadingImage(R.drawable.pic_item_list_default);*/
+            mBitmapUtils = new MyBitmapUtils();
         }
 
         @Override
