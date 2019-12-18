@@ -18,11 +18,19 @@ import java.net.URL;
  */
 
 public class NetCacheUtils {
+    private LocalCacheUtils localCacheUtils;
+    private MemoryCacheUtils mMemoryCacheUtils;
+
+    public NetCacheUtils(LocalCacheUtils localCacheUtils,MemoryCacheUtils mMemoryCacheUtils){
+        this.localCacheUtils = localCacheUtils;
+        this.mMemoryCacheUtils = mMemoryCacheUtils;
+    }
 
 
 
     public void getBitmapFromNet(ImageView imageView, String url) {
         //异步下载图片
+
         new BitmapTask().execute(imageView,url);
     }
     class BitmapTask extends AsyncTask<Object,Void,Bitmap>{
@@ -33,6 +41,7 @@ public class NetCacheUtils {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            imageView.setTag(url);//给当前ImageView打一个标签
         }
 
         @Override
@@ -56,6 +65,11 @@ public class NetCacheUtils {
                     //判断当前图片的url是否与imageview的url一致，如果一致，说明图片正确
                     imageView.setImageBitmap(result);
                     Log.e("NetCacheUtils","从网络下载图片了");
+
+                    //写本地缓存
+                    localCacheUtils.setLocalCache(url,result);
+                    //写内存缓存
+                    mMemoryCacheUtils.setMemoryCache(url,result);
                 }
 
             }
