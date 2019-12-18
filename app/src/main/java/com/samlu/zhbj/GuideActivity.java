@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.samlu.zhbj.utils.DensityUtils;
 import com.samlu.zhbj.utils.SPUtil;
 
 import java.util.ArrayList;
@@ -76,7 +77,7 @@ public class GuideActivity extends Activity {
             LinearLayout.LayoutParams params =
                     new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,LinearLayout.LayoutParams.WRAP_CONTENT);
             if (i >0){
-                params.leftMargin = 10;
+                params.leftMargin = DensityUtils.dip2px(10,this);
             }
             point.setLayoutParams(params);
             ll_container.addView(point);

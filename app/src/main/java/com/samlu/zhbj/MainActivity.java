@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
+import android.view.WindowManager;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import com.jeremyfeinstein.slidingmenu.lib.app.SlidingActivity;
@@ -29,9 +30,12 @@ public class MainActivity extends SlidingFragmentActivity {
         setContentView(R.layout.activity_main);
         setBehindContentView(R.layout.left_menu);
 
+        WindowManager wm = (WindowManager) getSystemService(WINDOW_SERVICE);
+        int width = wm.getDefaultDisplay().getWidth();//屏幕宽度
+
         SlidingMenu slidingMenu = getSlidingMenu();
         slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        slidingMenu.setBehindOffset(200);//主页面左边距最大的距离
+        slidingMenu.setBehindOffset(200/340*width);//主页面左边距最大的距离
 
         initFragment();
 
