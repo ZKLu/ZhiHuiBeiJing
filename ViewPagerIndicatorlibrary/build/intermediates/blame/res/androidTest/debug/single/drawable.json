@@ -1,5 +1,9 @@
 [
     {
+        "merged": "C:\\androidproject\\Zhbj\\ViewPagerIndicatorlibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\news_tab_item_bg_select.9.png",
+        "source": "C:\\androidproject\\Zhbj\\ViewPagerIndicatorlibrary\\build\\intermediates\\bundles\\debug\\res\\drawable\\news_tab_item_bg_select.9.png"
+    },
+    {
         "merged": "C:\\androidproject\\Zhbj\\ViewPagerIndicatorlibrary\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable\\vpi__tab_indicator.xml",
         "source": "C:\\androidproject\\Zhbj\\ViewPagerIndicatorlibrary\\build\\intermediates\\bundles\\debug\\res\\drawable\\vpi__tab_indicator.xml"
     }

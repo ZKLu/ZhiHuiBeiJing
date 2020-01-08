@@ -32,6 +32,7 @@ public class ContentFragment extends BaseFragment {
     @ViewInject(R.id.rg_group) //XUtils的注解式findViewById()
     private RadioGroup rg_group;
 
+
     @Override
     public View initView() {
         View view = View.inflate(mActivity, R.layout.fragment_content, null);
